@@ -1,37 +1,68 @@
-# API REST con Python y FastAPI
+# API REST basica con Python y Flask
 
-Este proyecto es una API REST desarrollada con Python y FastAPI.
+Este proyecto contiene una API REST sencilla creada con Python y Flask.
+
+Actualmente es un proyecto de practica: no usa base de datos, no tiene autenticacion y los datos de ejemplo se generan directamente dentro de `main.py`.
+
+## Estado actual
+
+Archivo principal:
+
+```text
+main.py
+```
+
+Framework usado:
+
+```text
+Flask
+```
+
+Puerto por defecto al ejecutar con `python main.py`:
+
+```text
+http://127.0.0.1:5000
+```
+
+## Estructura del proyecto
+
+```text
+restPython/
+|-- .venv/
+|-- __pycache__/
+|-- .git/
+|-- main.py
+`-- README.md
+```
+
+Notas:
+
+- `.venv/` es el entorno virtual local.
+- `__pycache__/` es generado automaticamente por Python.
+- `.git/` contiene la informacion interna del repositorio.
+- No hay un archivo `requirements.txt` actualmente en la carpeta del proyecto.
 
 ## Requisitos
 
-Antes de ejecutar el proyecto, es necesario tener instalado:
+Antes de ejecutar el proyecto se necesita:
 
-* Python 3.10 o superior
-* `pip`
-* Git, opcional
-* Visual Studio Code, recomendado
+- Python 3.10 o superior.
+- `pip`.
+- PowerShell, CMD o una terminal compatible.
 
-Para verificar la versión de Python:
+Verificar Python:
 
 ```powershell
 python --version
 ```
 
-También puede utilizarse:
-
-```powershell
-py --version
-```
-
-Para verificar que `pip` está instalado:
+Verificar pip:
 
 ```powershell
 python -m pip --version
 ```
 
----
-
-## 1. Clonar o abrir el proyecto
+## Preparar el entorno virtual
 
 Entrar a la carpeta del proyecto:
 
@@ -39,219 +70,64 @@ Entrar a la carpeta del proyecto:
 cd D:\Proyectos\Amilcar\restPython
 ```
 
-Verificar que se está en la carpeta correcta:
-
-```powershell
-Get-Location
-```
-
-Listar los archivos:
-
-```powershell
-Get-ChildItem
-```
-
----
-
-## 2. Crear el entorno virtual
-
-El entorno virtual permite instalar dependencias de Python de forma aislada para este proyecto.
-
-Ejecutar:
+Crear el entorno virtual, si todavia no existe:
 
 ```powershell
 python -m venv .venv
 ```
 
-Esto crea la carpeta:
-
-```text
-.venv/
-```
-
-La estructura inicial del proyecto puede verse así:
-
-```text
-restPython/
-├── .venv/
-├── main.py
-├── requirements.txt
-├── .gitignore
-└── README.md
-```
-
-El entorno virtual solo debe crearse una vez.
-
----
-
-## 3. Activar el entorno virtual
-
-### PowerShell
+Activar el entorno virtual en PowerShell:
 
 ```powershell
 .\.venv\Scripts\Activate.ps1
 ```
 
-Cuando el entorno esté activo, la terminal mostrará algo parecido a:
+Cuando este activo, la terminal mostrara algo parecido a:
 
 ```text
 (.venv) PS D:\Proyectos\Amilcar\restPython>
 ```
 
-### CMD
-
-En el símbolo del sistema de Windows:
-
-```cmd
-.venv\Scripts\activate.bat
-```
-
-### Git Bash
-
-```bash
-source .venv/Scripts/activate
-```
-
-Es importante utilizar el comando correspondiente a la terminal actual.
-
----
-
-## 4. Error de ejecución de scripts en PowerShell
-
-Si PowerShell muestra un error parecido a:
-
-```text
-La ejecución de scripts está deshabilitada en este sistema
-```
-
-Ejecutar:
-
-```powershell
-Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
-```
-
-PowerShell solicitará confirmación. Después, volver a activar el entorno:
-
-```powershell
-.\.venv\Scripts\Activate.ps1
-```
-
-También puede habilitarse solamente para la terminal actual:
+Si PowerShell bloquea la activacion por politicas de ejecucion, se puede habilitar solo para la terminal actual:
 
 ```powershell
 Set-ExecutionPolicy -Scope Process Bypass
-```
-
-Luego:
-
-```powershell
 .\.venv\Scripts\Activate.ps1
 ```
 
-La opción `Process` solamente aplica mientras esa ventana de PowerShell permanezca abierta.
+## Instalar dependencias
 
----
+El proyecto usa Flask. Si no esta instalado en el entorno virtual:
 
-## 5. Actualizar pip
+```powershell
+python -m pip install Flask
+```
+
+Verificar que Flask quedo instalado:
+
+```powershell
+python -m pip show Flask
+```
+
+## Ejecutar la API
 
 Con el entorno virtual activo:
 
 ```powershell
-python -m pip install --upgrade pip
+python main.py
 ```
 
----
-
-## 6. Instalar FastAPI
-
-Instalar FastAPI junto con sus herramientas estándar:
-
-```powershell
-python -m pip install "fastapi[standard]"
-```
-
-Esta instalación incluye el servidor necesario para ejecutar la API durante el desarrollo.
-
-Verificar las dependencias instaladas:
-
-```powershell
-python -m pip list
-```
-
----
-
-## 7. Crear el archivo principal
-
-Crear un archivo llamado:
-
-```text
-main.py
-```
-
-Código básico:
+La aplicacion se levanta en modo debug porque `main.py` contiene:
 
 ```python
-from fastapi import FastAPI
-
-
-app = FastAPI(
-    title="Mi primera API REST",
-    description="API creada con Python y FastAPI",
-    version="1.0.0",
-)
-
-
-@app.get("/")
-def home():
-    return {
-        "message": "La API está funcionando correctamente"
-    }
-
-
-@app.get("/health")
-def health():
-    return {
-        "status": "ok"
-    }
+app.run(debug=True)
 ```
 
----
-
-## 8. Ejecutar la API
-
-Con el entorno virtual activo:
-
-```powershell
-fastapi dev main.py
-```
-
-También puede ejecutarse con:
-
-```powershell
-python -m fastapi dev main.py
-```
-
-La API estará disponible en:
+Abrir en el navegador:
 
 ```text
-http://127.0.0.1:8000
+http://127.0.0.1:5000
 ```
-
-La documentación Swagger estará disponible en:
-
-```text
-http://127.0.0.1:8000/docs
-```
-
-La documentación alternativa ReDoc estará disponible en:
-
-```text
-http://127.0.0.1:8000/redoc
-```
-
----
-
-## 9. Detener la API
 
 Para detener el servidor:
 
@@ -259,257 +135,152 @@ Para detener el servidor:
 Ctrl + C
 ```
 
----
+## Rutas disponibles
 
-## 10. Desactivar el entorno virtual
+### GET /
 
-Cuando se termine de trabajar:
+Ruta inicial de prueba.
 
-```powershell
-deactivate
+Respuesta:
+
+```text
+home
 ```
 
-El texto `(.venv)` desaparecerá de la terminal.
+Ejemplo:
 
----
+```powershell
+Invoke-RestMethod http://127.0.0.1:5000/
+```
 
-## 11. Volver a trabajar en el proyecto
+### GET /holamundo
 
-Cada vez que se abra nuevamente el proyecto, no es necesario recrear el entorno virtual.
+Devuelve un texto simple.
 
-Solo se debe entrar a la carpeta:
+Respuesta:
+
+```text
+Hola Mundo
+```
+
+Ejemplo:
+
+```powershell
+Invoke-RestMethod http://127.0.0.1:5000/holamundo
+```
+
+### GET /users/<user_id>
+
+Devuelve un usuario de ejemplo usando el `user_id` recibido en la URL.
+
+Ejemplo:
+
+```powershell
+Invoke-RestMethod http://127.0.0.1:5000/users/2332
+```
+
+Respuesta esperada:
+
+```json
+{
+  "id": "2332",
+  "name": "test",
+  "tel\u00e9fono": "333 3333"
+}
+```
+
+La ruta tambien acepta un parametro opcional llamado `query`.
+
+Ejemplo:
+
+```powershell
+Invoke-RestMethod "http://127.0.0.1:5000/users/2332?query=queryTest"
+```
+
+Respuesta esperada:
+
+```json
+{
+  "id": "2332",
+  "name": "test",
+  "tel\u00e9fono": "333 3333",
+  "query": "queryTest"
+}
+```
+
+### POST /users
+
+Recibe un JSON en el cuerpo de la peticion, agrega un campo `status` y devuelve el resultado.
+
+Ejemplo:
+
+```powershell
+Invoke-RestMethod `
+  -Uri http://127.0.0.1:5000/users `
+  -Method Post `
+  -ContentType "application/json" `
+  -Body '{"name":"Amilcar","telefono":"333 3333"}'
+```
+
+Respuesta esperada:
+
+```json
+{
+  "name": "Amilcar",
+  "telefono": "333 3333",
+  "status": "user crated"
+}
+```
+
+Nota: el texto actual devuelto por el codigo es `user crated`. Si se quiere corregir el mensaje, habria que cambiarlo en `main.py`.
+
+## Resumen de endpoints
+
+| Metodo | Ruta | Descripcion |
+| --- | --- | --- |
+| GET | `/` | Devuelve `home`. |
+| GET | `/holamundo` | Devuelve `Hola Mundo`. |
+| GET | `/users/<user_id>` | Devuelve un usuario de ejemplo. |
+| POST | `/users` | Recibe JSON y devuelve el mismo contenido con un campo `status`. |
+
+## Flujo diario de trabajo
 
 ```powershell
 cd D:\Proyectos\Amilcar\restPython
-```
-
-Activar el entorno:
-
-```powershell
 .\.venv\Scripts\Activate.ps1
+python main.py
 ```
 
-Y levantar la API:
+## Generar requirements.txt
 
-```powershell
-fastapi dev main.py
-```
-
-Flujo diario:
-
-```powershell
-cd D:\Proyectos\Amilcar\restPython
-.\.venv\Scripts\Activate.ps1
-fastapi dev main.py
-```
-
----
-
-## 12. Generar el archivo de dependencias
-
-Después de instalar las dependencias necesarias:
+Actualmente el proyecto no incluye `requirements.txt`. Para generarlo desde el entorno virtual activo:
 
 ```powershell
 python -m pip freeze > requirements.txt
 ```
 
-El archivo `requirements.txt` contendrá versiones similares a:
-
-```text
-fastapi==0.x.x
-pydantic==2.x.x
-uvicorn==0.x.x
-```
-
-No es recomendable modificar manualmente las versiones sin conocer sus compatibilidades.
-
----
-
-## 13. Instalar dependencias desde requirements.txt
-
-Cuando el proyecto se descargue en otra computadora:
+Luego, en otra computadora o instalacion limpia, se podrian instalar las dependencias con:
 
 ```powershell
 python -m pip install -r requirements.txt
 ```
 
-El flujo completo sería:
+## Limitaciones actuales
 
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
-fastapi dev main.py
-```
+- Los usuarios no se guardan en una base de datos.
+- El endpoint `GET /users/<user_id>` siempre devuelve el mismo nombre y telefono de ejemplo.
+- El endpoint `POST /users` no valida que el JSON tenga campos especificos.
+- No hay manejo personalizado de errores.
+- No hay pruebas automatizadas.
+- No hay autenticacion ni autorizacion.
+- No hay documentacion Swagger automatica, porque el proyecto usa Flask directamente y no FastAPI.
 
----
+## Posibles siguientes mejoras
 
-## 14. Archivo .gitignore
-
-Crear un archivo llamado:
-
-```text
-.gitignore
-```
-
-Agregar:
-
-```gitignore
-# Entorno virtual
-.venv/
-venv/
-
-# Variables de entorno
-.env
-
-# Caché de Python
-__pycache__/
-*.py[cod]
-*$py.class
-
-# Herramientas de pruebas y análisis
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
-
-# Archivos del editor
-.vscode/
-.idea/
-
-# Archivos del sistema operativo
-.DS_Store
-Thumbs.db
-```
-
-La carpeta `.venv` no debe subirse al repositorio porque contiene archivos específicos de cada sistema operativo y puede regenerarse utilizando `requirements.txt`.
-
----
-
-## 15. Verificar qué Python se está utilizando
-
-Con el entorno activo:
-
-```powershell
-python -c "import sys; print(sys.executable)"
-```
-
-El resultado debería apuntar al entorno virtual:
-
-```text
-D:\Proyectos\Amilcar\restPython\.venv\Scripts\python.exe
-```
-
-También puede comprobarse con:
-
-```powershell
-Get-Command python
-```
-
----
-
-## 16. Solución de problemas comunes
-
-### El comando `python` no existe
-
-Probar:
-
-```powershell
-py --version
-```
-
-Crear el entorno con:
-
-```powershell
-py -m venv .venv
-```
-
-### El entorno no se activa
-
-En PowerShell debe utilizarse:
-
-```powershell
-.\.venv\Scripts\Activate.ps1
-```
-
-No utilizar:
-
-```powershell
-.venv\Scripts\activate.bat
-```
-
-El archivo `.bat` corresponde principalmente a CMD.
-
-### El comando `fastapi` no existe
-
-Asegurarse de que el entorno esté activo:
-
-```powershell
-.\.venv\Scripts\Activate.ps1
-```
-
-Instalar FastAPI:
-
-```powershell
-python -m pip install "fastapi[standard]"
-```
-
-Ejecutar mediante Python:
-
-```powershell
-python -m fastapi dev main.py
-```
-
-### El puerto 8000 está ocupado
-
-Ejecutar la API en otro puerto:
-
-```powershell
-fastapi dev main.py --port 8001
-```
-
-Abrir:
-
-```text
-http://127.0.0.1:8001/docs
-```
-
-### Se eliminó la carpeta .venv
-
-Puede reconstruirse:
-
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install -r requirements.txt
-```
-
----
-
-## Comandos rápidos
-
-### Primera instalación
-
-```powershell
-cd D:\Proyectos\Amilcar\restPython
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-python -m pip install "fastapi[standard]"
-python -m pip freeze > requirements.txt
-fastapi dev main.py
-```
-
-### Uso diario
-
-```powershell
-cd D:\Proyectos\Amilcar\restPython
-.\.venv\Scripts\Activate.ps1
-fastapi dev main.py
-```
-
-### Finalizar
-
-```powershell
-deactivate
-```
+- Corregir el texto `user crated` a `user created`.
+- Agregar `requirements.txt`.
+- Agregar un `.gitignore` para excluir `.venv/`, `__pycache__/` y archivos temporales.
+- Separar rutas en otro archivo si la API crece.
+- Agregar validaciones para el JSON recibido en `POST /users`.
+- Agregar una base de datos o almacenamiento en memoria mas estructurado.
+- Agregar pruebas con `pytest`.
